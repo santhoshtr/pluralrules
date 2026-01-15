@@ -186,7 +186,7 @@ impl PluralRules {
 
 #[cfg(test)]
 mod tests {
-    use super::{PluralCategory, PluralRuleType, PluralRules, CLDR_VERSION};
+    use super::{CLDR_VERSION, PluralCategory, PluralRuleType, PluralRules};
     use unic_langid::LanguageIdentifier;
 
     #[test]
