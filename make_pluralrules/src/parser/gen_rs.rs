@@ -77,25 +77,44 @@ fn create_return(cat: PluralCategory, exp: &TokenStream) -> TokenStream {
     }
 }
 
+/// Helper function to convert a string to its little-endian u64 representation for TinyStr8
+fn str_to_u64(s: &str) -> u64 {
+    let mut bytes = [0u8; 8];
+    let s_bytes = s.as_bytes();
+    bytes[..s_bytes.len()].copy_from_slice(s_bytes);
+    u64::from_le_bytes(bytes)
+}
+
+/// Helper function to convert a string to its little-endian u32 representation for TinyStr4
+fn str_to_u32(s: &str) -> u32 {
+    let mut bytes = [0u8; 4];
+    let s_bytes = s.as_bytes();
+    bytes[..s_bytes.len()].copy_from_slice(s_bytes);
+    u32::from_le_bytes(bytes)
+}
+
 pub fn gen_langid(id: &LanguageIdentifier) -> TokenStream {
     let (language, script, region, _) = id.clone().into_parts();
 
-    // Language is always present (not optional)
+    // Language is always present (not optional) - takes u64
     let lang_str = language.as_str();
-    let lang = quote!(subtags::Language::from_raw_unchecked(#lang_str));
+    let lang_raw = str_to_u64(lang_str);
+    let lang = quote!(subtags::Language::from_raw_unchecked(#lang_raw));
 
-    // Script is optional
+    // Script is optional - takes u32
     let script = if let Some(script) = script {
         let script_str = script.as_str();
-        quote!(Some(subtags::Script::from_raw_unchecked(#script_str)))
+        let script_raw = str_to_u32(script_str);
+        quote!(Some(subtags::Script::from_raw_unchecked(#script_raw)))
     } else {
         quote!(None)
     };
 
-    // Region is optional
+    // Region is optional - takes u32
     let region = if let Some(region) = region {
         let region_str = region.as_str();
-        quote!(Some(subtags::Region::from_raw_unchecked(#region_str)))
+        let region_raw = str_to_u32(region_str);
+        quote!(Some(subtags::Region::from_raw_unchecked(#region_raw)))
     } else {
         quote!(None)
     };

@@ -2,14 +2,16 @@
 #![cfg_attr(feature = "cargo-clippy", allow(clippy::float_cmp))]
 #![cfg_attr(feature = "cargo-clippy", allow(clippy::unreadable_literal))]
 #![cfg_attr(feature = "cargo-clippy", allow(clippy::nonminimal_bool))]
-use super::PluralCategory;
 use super::operands::PluralOperands;
-use unic_langid::LanguageIdentifier;
+use super::PluralCategory;
 use unic_langid::subtags;
+use unic_langid::LanguageIdentifier;
 pub type PluralRule = fn(&PluralOperands) -> PluralCategory;
 pub static CLDR_VERSION: usize = 37;
 macro_rules! langid {
-    ( $ lang : expr , $ script : expr , $ region : expr ) => {{ unsafe { LanguageIdentifier::from_raw_parts_unchecked($lang, $script, $region, None) } }};
+    ($ lang : expr , $ script : expr , $ region : expr) => {{
+        unsafe { LanguageIdentifier::from_raw_parts_unchecked($lang, $script, $region, None) }
+    }};
 }
 pub const PRS_CARDINAL: &[(LanguageIdentifier, PluralRule)] = &[
     (
