@@ -2,6 +2,7 @@
 
 /// An enum for all plural rule categories.
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[allow(clippy::upper_case_acronyms)]
 pub enum PluralCategory {
     ZERO,
     ONE,

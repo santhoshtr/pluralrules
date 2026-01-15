@@ -50,7 +50,6 @@
 //! ```
 #![allow(clippy::cast_lossless)]
 use std::convert::TryFrom;
-use std::isize;
 use std::str::FromStr;
 
 /// A full plural operands representation of a number. See [CLDR Plural Rules](https://unicode.org/reports/tr35/tr35-numbers.html#Language_Plural_Rules) for complete operands description.
@@ -74,8 +73,8 @@ impl<'a> TryFrom<&'a str> for PluralOperands {
     type Error = &'static str;
 
     fn try_from(input: &'a str) -> Result<Self, Self::Error> {
-        let abs_str = if input.starts_with('-') {
-            &input[1..]
+        let abs_str = if let Some(stripped) = input.strip_prefix('-') {
+            stripped
         } else {
             input
         };

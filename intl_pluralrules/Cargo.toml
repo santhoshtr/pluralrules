@@ -22,6 +22,9 @@ coveralls = { repository = "zbraniecki/pluralrules", branch = "master", service 
 
 maintenance = { status = "actively-developed" }
 
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ["cfg(tarpaulin_include)"] }
+
 [dependencies]
 unic-langid = "0.9"
 
