@@ -1,5 +1,6 @@
 use super::ast::*;
 use nom::{
+    IResult,
     branch::alt,
     //error::context,
     bytes::complete::tag,
@@ -7,7 +8,6 @@ use nom::{
     combinator::{map, map_res, opt},
     multi::{separated_list, separated_nonempty_list},
     sequence::{preceded, separated_pair, tuple},
-    IResult,
 };
 
 fn value(i: &str) -> IResult<&str, Value> {

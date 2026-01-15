@@ -1,7 +1,7 @@
+use criterion::Criterion;
 use criterion::black_box;
 use criterion::criterion_group;
 use criterion::criterion_main;
-use criterion::Criterion;
 
 use cldr_pluralrules_parser::{parse_plural_condition, parse_plural_rule};
 
