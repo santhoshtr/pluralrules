@@ -78,19 +78,24 @@ fn create_return(cat: PluralCategory, exp: &TokenStream) -> TokenStream {
 }
 
 pub fn gen_langid(id: &LanguageIdentifier) -> TokenStream {
-    let (lang, script, region, _) = id.clone().into_raw_parts();
-    let lang = if let Some(lang) = lang {
-        quote!(subtags::Language::from_raw_unchecked(#lang))
-    } else {
-        quote!(None)
-    };
+    let (language, script, region, _) = id.clone().into_parts();
+
+    // Language is always present (not optional)
+    let lang_str = language.as_str();
+    let lang = quote!(subtags::Language::from_raw_unchecked(#lang_str));
+
+    // Script is optional
     let script = if let Some(script) = script {
-        quote!(Some(subtags::Script::from_raw_unchecked(#script)))
+        let script_str = script.as_str();
+        quote!(Some(subtags::Script::from_raw_unchecked(#script_str)))
     } else {
         quote!(None)
     };
+
+    // Region is optional
     let region = if let Some(region) = region {
-        quote!(Some(subtags::Region::from_raw_unchecked(#region)))
+        let region_str = region.as_str();
+        quote!(Some(subtags::Region::from_raw_unchecked(#region_str)))
     } else {
         quote!(None)
     };
