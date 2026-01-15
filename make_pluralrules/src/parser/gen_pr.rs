@@ -68,7 +68,7 @@ fn create_relation(rel: Relation) -> TokenStream {
     let r1 = convert_rangl(right);
 
     // If there is a modulus, convert to literal. If not, placehold literal
-    let (mod_check, m) = if left.modulus != None {
+    let (mod_check, m) = if left.modulus.is_some() {
         (true, convert_literal((left.modulus.unwrap().0).0))
     } else {
         (false, convert_literal(0))

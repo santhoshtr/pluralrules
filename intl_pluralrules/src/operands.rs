@@ -48,7 +48,7 @@
 //!    t: 45,
 //! }), PluralOperands::try_from(123.45))
 //! ```
-#![cfg_attr(feature = "cargo-clippy", allow(clippy::cast_lossless))]
+#![allow(clippy::cast_lossless)]
 use std::convert::TryFrom;
 use std::isize;
 use std::str::FromStr;
@@ -77,10 +77,10 @@ impl<'a> TryFrom<&'a str> for PluralOperands {
         let abs_str = if input.starts_with('-') {
             &input[1..]
         } else {
-            &input
+            input
         };
 
-        let absolute_value = f64::from_str(&abs_str).map_err(|_| "Incorrect number passed!")?;
+        let absolute_value = f64::from_str(abs_str).map_err(|_| "Incorrect number passed!")?;
 
         let integer_digits;
         let num_fraction_digits0;
@@ -93,12 +93,12 @@ impl<'a> TryFrom<&'a str> for PluralOperands {
             let dec_str = &abs_str[(dec_pos + 1)..];
 
             integer_digits =
-                u64::from_str(&int_str).map_err(|_| "Could not convert string to integer!")?;
+                u64::from_str(int_str).map_err(|_| "Could not convert string to integer!")?;
 
             let backtrace = dec_str.trim_end_matches('0');
 
-            num_fraction_digits0 = dec_str.len() as usize;
-            num_fraction_digits = backtrace.len() as usize;
+            num_fraction_digits0 = dec_str.len();
+            num_fraction_digits = backtrace.len();
             fraction_digits0 =
                 u64::from_str(dec_str).map_err(|_| "Could not convert string to integer!")?;
             fraction_digits = u64::from_str(backtrace).unwrap_or(0);

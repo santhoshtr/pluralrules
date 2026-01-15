@@ -38,7 +38,7 @@ fn main() -> std::io::Result<()> {
 
     if !args.ugly {
         Command::new("rustfmt")
-            .args(&[&args.output])
+            .args([&args.output])
             .output()
             .expect("Failed to format the output using `rustfmt`");
     }
